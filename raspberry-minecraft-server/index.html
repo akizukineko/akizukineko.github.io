@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/code.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/code16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="rPFmqJXXl_clNgNByUrjNfOrggPiRcdMzbJZjDYrfVc">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.akizukineko.tw&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Pisces&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:true,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:&quot;gitalk&quot;,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null,&quot;activeClass&quot;:&quot;gitalk&quot;},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜尋...&quot;,&quot;empty&quot;:&quot;我們無法找到任何有關 ${query} 的搜索結果&quot;,&quot;hits_time&quot;:&quot;${hits} 找到 ${time} 個結果&quot;,&quot;hits&quot;:&quot;找到 ${hits} 個結果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script>
+<meta name="description" content="前言由於朋友有固定IP的問題，然後又想測試 Raspberry Pi 能不能跑得動的minecraft server 所以決定來架設看看。然而事情不是很順利很多地方卡住，決定整合一篇文章讓想架設的人更順利。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Raspberry 架設 Minecraft 伺服器">
+<meta property="og:url" content="https://blog.akizukineko.tw/raspberry-minecraft-server/index.html">
+<meta property="og:site_name" content="Akizuki Neko">
+<meta property="og:description" content="前言由於朋友有固定IP的問題，然後又想測試 Raspberry Pi 能不能跑得動的minecraft server 所以決定來架設看看。然而事情不是很順利很多地方卡住，決定整合一篇文章讓想架設的人更順利。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://blog.akizukineko.tw/raspberry-minecraft-server/balenaEtcher.png">
+<meta property="og:image" content="https://blog.akizukineko.tw/raspberry-minecraft-server/DMZ.png">
+<meta property="og:image" content="https://blog.akizukineko.tw/raspberry-minecraft-server/NAT.png">
+<meta property="article:published_time" content="2020-01-24T06:55:36.000Z">
+<meta property="article:modified_time" content="2020-01-24T06:55:36.000Z">
+<meta property="article:author" content="Akizuki Neko">
+<meta property="article:tag" content="minecraft">
+<meta property="article:tag" content="Raspberry Pi">
+<meta property="article:tag" content="server">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.akizukineko.tw/raspberry-minecraft-server/balenaEtcher.png">
+
+
+<link rel="canonical" href="https://blog.akizukineko.tw/raspberry-minecraft-server/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-TW&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;blog.akizukineko.tw&#x2F;raspberry-minecraft-server&#x2F;&quot;,&quot;path&quot;:&quot;raspberry-minecraft-server&#x2F;&quot;,&quot;title&quot;:&quot;使用 Raspberry 架設 Minecraft 伺服器&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>使用 Raspberry 架設 Minecraft 伺服器 | Akizuki Neko</title><script src="/js/config.js"></script>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56530896-7"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-56530896-7&quot;,&quot;only_pageview&quot;:false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Akizuki Neko</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">意識活在過去，未來又在何方?</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%96%8B%E5%A7%8B%E6%9E%B6%E8%A8%AD"><span class="nav-number">2.</span> <span class="nav-text">開始架設</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E6%A8%B9%E6%A2%85%E6%B4%BE%E7%B3%BB%E7%B5%B1"><span class="nav-number">2.1.</span> <span class="nav-text">安裝樹梅派系統</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Java"><span class="nav-number">2.2.</span> <span class="nav-text">安裝 Java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Screen"><span class="nav-number">2.3.</span> <span class="nav-text">安裝 Screen</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Minecraft-Server"><span class="nav-number">2.4.</span> <span class="nav-text">安裝 Minecraft Server</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E8%B3%87%E6%96%99%E5%A4%BE-minecraft-%E7%82%BA%E4%BC%BA%E6%9C%8D%E5%99%A8%E8%B3%87%E6%96%99%E5%A4%BE%E7%9A%84%E5%90%8D%E7%A8%B1-%E7%95%B6%E4%BD%A0%E5%8F%AF%E4%BB%A5%E6%94%B9%E6%88%90%E5%85%B6%E4%BB%96%E4%BD%A0%E5%96%9C%E6%AD%A1%E7%9A%84"><span class="nav-number">2.4.1.</span> <span class="nav-text">建立資料夾 (minecraft 為伺服器資料夾的名稱 當你可以改成其他你喜歡的)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8B%E8%BC%89%E4%BC%BA%E6%9C%8D%E5%99%A8%E5%BB%BA%E7%AB%8B%E5%B7%A5%E5%85%B7"><span class="nav-number">2.4.2.</span> <span class="nav-text">下載伺服器建立工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E4%BC%BA%E6%9C%8D%E5%99%A8%E6%AA%94%E6%A1%88"><span class="nav-number">2.4.3.</span> <span class="nav-text">建立伺服器檔案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Run-Your-Server"><span class="nav-number">3.</span> <span class="nav-text">Run Your Server !</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%9F%B7%E8%A1%8C"><span class="nav-number">3.1.</span> <span class="nav-text">第一次執行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B7%A8%E8%BC%AF%E4%BC%BA%E6%9C%8D%E5%99%A8%E8%A8%AD%E5%AE%9A"><span class="nav-number">3.2.</span> <span class="nav-text">編輯伺服器設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E4%BC%BA%E6%9C%8D%E5%99%A8%E8%85%B3%E6%9C%AC"><span class="nav-number">3.3.</span> <span class="nav-text">建立伺服器腳本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%93%E6%9C%8B%E5%8F%8B%E9%80%A3%E5%85%A5%E4%BD%A0%E7%9A%84%E4%BC%BA%E6%9C%8D%E5%99%A8"><span class="nav-number">4.</span> <span class="nav-text">讓朋友連入你的伺服器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DMZ-%E7%9A%84%E8%A8%AD%E5%AE%9A"><span class="nav-number">4.1.</span> <span class="nav-text">DMZ 的設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9B%E6%93%AC%E4%BC%BA%E6%9C%8D%E5%99%A8"><span class="nav-number">4.2.</span> <span class="nav-text">虛擬伺服器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%96%E5%BE%97%E4%BD%A0%E5%A4%96%E7%B6%B2IP%E4%BD%8D%E7%BD%AE"><span class="nav-number">4.3.</span> <span class="nav-text">取得你外網IP位置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E5%A4%9A%E8%A9%B3%E7%B4%B0%E8%A8%AD%E7%BD%AE"><span class="nav-number">5.</span> <span class="nav-text">更多詳細設置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Akizuki Neko"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Akizuki Neko</p>
+  <div class="site-description" itemprop="description">一個紀錄自己找尋資料，解決問題的地方</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/akizukineko" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;akizukineko" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:contact@akizukineko.tw" title="E-Mail → mailto:contact@akizukineko.tw" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/AkizukiNeko" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;AkizukiNeko" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.driftking.tw/" title="https:&#x2F;&#x2F;blog.driftking.tw&#x2F;" rel="noopener" target="_blank">DriftkingTW's Blog</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://blog.akizukineko.tw/raspberry-minecraft-server/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Akizuki Neko">
+      <meta itemprop="description" content="一個紀錄自己找尋資料，解決問題的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Akizuki Neko">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 Raspberry 架設 Minecraft 伺服器
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2020-01-24 14:55:36" itemprop="dateCreated datePublished" datetime="2020-01-24T14:55:36+08:00">2020-01-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Raspberry/" itemprop="url" rel="index"><span itemprop="name">Raspberry</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="文章字數">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">文章字數：</span>
+      <span>2.1k</span>
+    </span>
+    <span class="post-meta-item" title="所需閱讀時間">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">所需閱讀時間 &asymp;</span>
+      <span>2 分鐘</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由於朋友有固定IP的問題，然後又想測試 Raspberry Pi 能不能跑得動的minecraft server 所以決定來架設看看。<br>然而事情不是很順利很多地方卡住，決定整合一篇文章讓想架設的人更順利。</p>
+<span id="more"></span>
+<h2 id="開始架設"><a href="#開始架設" class="headerlink" title="開始架設"></a>開始架設</h2><h3 id="安裝樹梅派系統"><a href="#安裝樹梅派系統" class="headerlink" title="安裝樹梅派系統"></a>安裝樹梅派系統</h3><p>我這邊使用 Raspberry Pi 4B 4GB 的版本，系統是 Raspbian Buster Lite 純文字的系統比較省記憶體，原本打算開給伺服器3GB 後來發現 raspberry 系統是 32bit 的所以沒辦法配到 3GB，單一程式最多吃到2GB。</p>
+<p><a target="_blank" rel="noopener" href="https://www.raspberrypi.org/downloads/raspbian/">Raspbian Buster Lite 載點</a></p>
+<p>下載完成後使用 <a target="_blank" rel="noopener" href="https://www.balena.io/etcher/">balenaEtcher</a> 刷入</p>
+<img src="/raspberry-minecraft-server/balenaEtcher.png" class="">
+
+<p>安裝完成後記得在 boot 目錄中建立一個 ssh 文件單純名字即可可以使用 Notepad++ 來完成</p>
+<p>接上網路線，啟動樹梅派後<br>查詢樹梅派的區網 IP 位置，可以透過登錄中華電信路由器來找尋 <a target="_blank" rel="noopener" href="https://iqmore.tw/cht-hinet-alcatel-i-040gw-login">中華電信登入帳密參考</a><br>中華電信小烏龜IP位置一般是: 192.168.1.1</p>
+<p>SSH 連線可以使用 <a target="_blank" rel="noopener" href="https://www.putty.org/">Putty</a> 來連線<br>連上後出現對話框按 Yes 即可<br>登入帳號為: pi 密碼為: raspberry</p>
+<p>接著先更新樹梅派系統 可能要些時間來更新</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
+
+<h3 id="安裝-Java"><a href="#安裝-Java" class="headerlink" title="安裝 Java"></a>安裝 Java</h3><p>這邊使用的是 Open JDK 的版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install default-jdk</span><br></pre></td></tr></table></figure>
+
+<p>使用這指令檢查 Java 是否有被正確安裝</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
+
+<h3 id="安裝-Screen"><a href="#安裝-Screen" class="headerlink" title="安裝 Screen"></a>安裝 Screen</h3><p>Screen 這程式能幫助我們在關閉 SSH 連線後繼續讓伺服器運行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install screen</span><br></pre></td></tr></table></figure>
+
+<h3 id="安裝-Minecraft-Server"><a href="#安裝-Minecraft-Server" class="headerlink" title="安裝 Minecraft Server"></a>安裝 Minecraft Server</h3><p>這邊用 Spigot 來架設，可以加上插件使 Server 有更多功能</p>
+<h4 id="建立資料夾-minecraft-為伺服器資料夾的名稱-當你可以改成其他你喜歡的"><a href="#建立資料夾-minecraft-為伺服器資料夾的名稱-當你可以改成其他你喜歡的" class="headerlink" title="建立資料夾 (minecraft 為伺服器資料夾的名稱 當你可以改成其他你喜歡的)"></a>建立資料夾 (minecraft 為伺服器資料夾的名稱 當你可以改成其他你喜歡的)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/pi</span><br><span class="line">mkdir minecraft</span><br><span class="line"><span class="built_in">cd</span> minecraft</span><br></pre></td></tr></table></figure>
+
+<h4 id="下載伺服器建立工具"><a href="#下載伺服器建立工具" class="headerlink" title="下載伺服器建立工具"></a>下載伺服器建立工具</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar</span><br></pre></td></tr></table></figure>
+
+<h4 id="建立伺服器檔案"><a href="#建立伺服器檔案" class="headerlink" title="建立伺服器檔案"></a>建立伺服器檔案</h4><p>PS: 1.15.1 請替換成你想遊玩的minecraft版本<br>跑這個可能需要些時間請耐心等待一下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo java -jar BuildTools.jar --rev 1.15.1</span><br></pre></td></tr></table></figure>
+
+<h2 id="Run-Your-Server"><a href="#Run-Your-Server" class="headerlink" title="Run Your Server !"></a>Run Your Server !</h2><h3 id="第一次執行"><a href="#第一次執行" class="headerlink" title="第一次執行"></a>第一次執行</h3><p>記得換 1.15.1 換成你使用的伺服器檔案版本<br>Xms 設定 Java 最小記憶體使用量<br>Xmx 設定 Java 最大記憶體使用量 因為 Raspberry Pi 為32位元系統，單一程式最多就只能吃到 2GB 的記憶體</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo java -Xms512M -Xmx2048M -jar /home/pi/minecraft/spigot-1.15.1.jar nogui</span><br></pre></td></tr></table></figure>
+
+<p>接受 EULA 條款</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano eula.txt</span><br></pre></td></tr></table></figure>
+
+<p>將 eula 改成 true ，改完後 Ctrl + O 可以儲存，Ctrl + X 離開編輯介面<br>再次執行 Server</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo java -Xms512M -Xmx2048M -jar /home/pi/minecraft/spigot-1.15.1.jar nogui</span><br></pre></td></tr></table></figure>
+
+<h3 id="編輯伺服器設定"><a href="#編輯伺服器設定" class="headerlink" title="編輯伺服器設定"></a>編輯伺服器設定</h3><p>如果需要修改伺服器設定</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano server.properties</span><br></pre></td></tr></table></figure>
+
+<h3 id="建立伺服器腳本"><a href="#建立伺服器腳本" class="headerlink" title="建立伺服器腳本"></a>建立伺服器腳本</h3><p>先停止伺服器<br>接著我們可以來建立腳本讓啟動伺服器更容易</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /home/pi/startup</span><br><span class="line"><span class="built_in">cd</span> /home/pi/startup</span><br><span class="line">nano minecraft.sh</span><br></pre></td></tr></table></figure>
+
+<p>在文字編輯介面貼上下列文字</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">cd</span> /home/pi/minecraft/ &amp;&amp; java -Xms512M -Xmx2048M -jar /home/pi/minecraft/spigot-1.15.1.jar nogui</span><br></pre></td></tr></table></figure>
+
+<p>存檔後執行下列命令讓他可以被執行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x minecraft.sh</span><br></pre></td></tr></table></figure>
+
+<p>之後開啟伺服器用下列方法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">screen        <span class="comment">#看到說明畫面後按 Enter</span></span><br><span class="line">sudo /home/pi/startup/minecraft.sh</span><br></pre></td></tr></table></figure>
+
+<p>這時候使用 Minecraft 遊戲內輸入 Raspberry 的 IP 地址應該就可以連線了</p>
+<h2 id="讓朋友連入你的伺服器"><a href="#讓朋友連入你的伺服器" class="headerlink" title="讓朋友連入你的伺服器"></a>讓朋友連入你的伺服器</h2><p>一般情況下路由器會把所有連入的連線拒絕掉<br>我們要設定 port 讓伺服器可以被連線</p>
+<p>有兩種方式可以讓伺服器被外部連線<br>可以使用 DMZ 或是 虛擬伺服器<br>DMZ 會開啟所有 Port 比較危險一點 建議使用 虛擬伺服器</p>
+<h3 id="DMZ-的設定"><a href="#DMZ-的設定" class="headerlink" title="DMZ 的設定"></a>DMZ 的設定</h3><p>直接在這介面輸入 Raspberry Pi 的 IP 位置即可，接著點擊 Apply 即可</p>
+<img src="/raspberry-minecraft-server/DMZ.png" class="">
+
+<h3 id="虛擬伺服器"><a href="#虛擬伺服器" class="headerlink" title="虛擬伺服器"></a>虛擬伺服器</h3><p>選擇 Custom Servise 因為沒有預設中沒有 Minecraft 選項<br>輸入 Raspberry 所在的IP位置<br>Port 開放 25565 即可，除非你想用其他接口</p>
+<img src="/raspberry-minecraft-server/NAT.png" class="">
+
+<h3 id="取得你外網IP位置"><a href="#取得你外網IP位置" class="headerlink" title="取得你外網IP位置"></a>取得你外網IP位置</h3><p>可以使用這網站查詢 IP 再發給朋友<br><a target="_blank" rel="noopener" href="https://www.whatismyip.com.tw/">What is my ip</a></p>
+<h2 id="更多詳細設置"><a href="#更多詳細設置" class="headerlink" title="更多詳細設置"></a>更多詳細設置</h2><p>其他細部的設置跟介紹我打在下一篇<a href="/raspberry-minecraft-server-extra/">Raspberry Minecraft 伺服器延伸資料</a></p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p><a href="%E5%89%8D%E8%A8%80%20-%20Raspberry%E5%95%9F%E5%8B%95SSH%E9%80%A3%E7%B7%9A">前言 - Raspberry啟動SSH連線</a><br><a target="_blank" rel="noopener" href="https://pimylifeup.com/raspberry-pi-java/">Installing Java on the Raspberry Pi</a><br><a target="_blank" rel="noopener" href="https://www.linuxnorth.org/minecraft/">Build a Vanilla Minecraft Server on Raspberry Pi</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/minecraft/" rel="tag"># minecraft</a>
+              <a href="/tags/Raspberry-Pi/" rel="tag"># Raspberry Pi</a>
+              <a href="/tags/server/" rel="tag"># server</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/start/" rel="prev" title="架設完成!">
+                  <i class="fa fa-chevron-left"></i> 架設完成!
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/raspberry-minecraft-server-extra/" rel="next" title="Raspberry Minecraft 伺服器延伸資料">
+                  Raspberry Minecraft 伺服器延伸資料 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div><script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Akizuki Neko</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="總字數">15k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="所需總閱讀時間">14 分鐘</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+<script class="next-config" data-name="gitalk" type="application/json">{&quot;enable&quot;:true,&quot;github_id&quot;:&quot;akizukineko&quot;,&quot;repo&quot;:&quot;gitalkcomment&quot;,&quot;client_id&quot;:&quot;80df3a49a7ec5586d991&quot;,&quot;client_secret&quot;:&quot;172c964babb16632d1164148ba3c58e7532c00d6&quot;,&quot;admin_user&quot;:&quot;akizukineko&quot;,&quot;distraction_free_mode&quot;:true,&quot;proxy&quot;:&quot;https:&#x2F;&#x2F;cors-anywhere.herokuapp.com&#x2F;https:&#x2F;&#x2F;github.com&#x2F;login&#x2F;oauth&#x2F;access_token&quot;,&quot;language&quot;:&quot;zh-TW&quot;,&quot;js&quot;:&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;gitalk@1.7.2&#x2F;dist&#x2F;gitalk.min.js&quot;,&quot;path_md5&quot;:&quot;bfd2b6c0e2c4a9e2c9ebdff737ac3c4d&quot;}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
