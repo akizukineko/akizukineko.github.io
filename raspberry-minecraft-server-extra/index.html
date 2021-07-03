@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/code.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/code16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="rPFmqJXXl_clNgNByUrjNfOrggPiRcdMzbJZjDYrfVc">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.akizukineko.tw&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Pisces&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:true,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:&quot;gitalk&quot;,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null,&quot;activeClass&quot;:&quot;gitalk&quot;},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜尋...&quot;,&quot;empty&quot;:&quot;我們無法找到任何有關 ${query} 的搜索結果&quot;,&quot;hits_time&quot;:&quot;${hits} 找到 ${time} 個結果&quot;,&quot;hits&quot;:&quot;找到 ${hits} 個結果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script>
+<meta name="description" content="本篇內容這邊會整理一些 Raspberry 更好管理伺服器的軟體，還有一些相關資料關於伺服器架設的部分可以參考這篇使用 Raspberry 架設 Minecraft 伺服器 大概會有  screen 常用指令 screen Bug 解決方法 FTP PPPoE minecraft 插件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Raspberry Minecraft 伺服器延伸資料">
+<meta property="og:url" content="https://blog.akizukineko.tw/raspberry-minecraft-server-extra/index.html">
+<meta property="og:site_name" content="Akizuki Neko">
+<meta property="og:description" content="本篇內容這邊會整理一些 Raspberry 更好管理伺服器的軟體，還有一些相關資料關於伺服器架設的部分可以參考這篇使用 Raspberry 架設 Minecraft 伺服器 大概會有  screen 常用指令 screen Bug 解決方法 FTP PPPoE minecraft 插件">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://blog.akizukineko.tw/raspberry-minecraft-server-extra/pppoe.png">
+<meta property="og:image" content="https://blog.akizukineko.tw/raspberry-minecraft-server-extra/pppoe2.png">
+<meta property="og:image" content="https://blog.akizukineko.tw/raspberry-minecraft-server-extra/pppoe3.png">
+<meta property="og:image" content="https://blog.akizukineko.tw/raspberry-minecraft-server-extra/pppoe4.png">
+<meta property="og:image" content="https://blog.akizukineko.tw/raspberry-minecraft-server-extra/pppoe5.png">
+<meta property="og:image" content="https://blog.akizukineko.tw/raspberry-minecraft-server-extra/pppoe6.png">
+<meta property="og:image" content="https://blog.akizukineko.tw/raspberry-minecraft-server-extra/pppoe7.png">
+<meta property="og:image" content="https://blog.akizukineko.tw/raspberry-minecraft-server-extra/pppoe8.png">
+<meta property="og:image" content="https://blog.akizukineko.tw/raspberry-minecraft-server-extra/pppoe9.png">
+<meta property="og:image" content="https://blog.akizukineko.tw/raspberry-minecraft-server-extra/pppoeipconf.png">
+<meta property="article:published_time" content="2020-01-28T10:27:26.000Z">
+<meta property="article:modified_time" content="2020-01-28T10:27:26.000Z">
+<meta property="article:author" content="Akizuki Neko">
+<meta property="article:tag" content="minecraft">
+<meta property="article:tag" content="Raspberry Pi">
+<meta property="article:tag" content="server">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.akizukineko.tw/raspberry-minecraft-server-extra/pppoe.png">
+
+
+<link rel="canonical" href="https://blog.akizukineko.tw/raspberry-minecraft-server-extra/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-TW&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;blog.akizukineko.tw&#x2F;raspberry-minecraft-server-extra&#x2F;&quot;,&quot;path&quot;:&quot;raspberry-minecraft-server-extra&#x2F;&quot;,&quot;title&quot;:&quot;Raspberry Minecraft 伺服器延伸資料&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Raspberry Minecraft 伺服器延伸資料 | Akizuki Neko</title><script src="/js/config.js"></script>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56530896-7"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-56530896-7&quot;,&quot;only_pageview&quot;:false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Akizuki Neko</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">意識活在過去，未來又在何方?</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E7%AF%87%E5%85%A7%E5%AE%B9"><span class="nav-number">1.</span> <span class="nav-text">本篇內容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#screen-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">screen 常用指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%96%8B%E5%95%9F-screen"><span class="nav-number">2.1.</span> <span class="nav-text">開啟 screen</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9A%AB%E6%99%82%E9%9B%A2%E9%96%8B-screen"><span class="nav-number">2.2.</span> <span class="nav-text">暫時離開 screen</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9E%E5%88%B0%E5%89%9B%E5%89%9B%E7%9A%84%E9%80%A3%E7%B7%9A"><span class="nav-number">2.3.</span> <span class="nav-text">回到剛剛的連線</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#screen-%E6%B8%85%E5%96%AE"><span class="nav-number">2.4.</span> <span class="nav-text">screen 清單</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%B8%E6%93%87%E5%9B%9E%E5%88%B0%E4%B9%8B%E5%89%8D%E7%9A%84%E9%80%A3%E7%B7%9A"><span class="nav-number">2.5.</span> <span class="nav-text">選擇回到之前的連線</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#screen-%E9%87%8D%E6%96%B0-attach-%E5%A4%B1%E6%95%97"><span class="nav-number">3.</span> <span class="nav-text">screen 重新 attach 失敗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-FTP-%E4%BC%BA%E6%9C%8D%E5%99%A8"><span class="nav-number">4.</span> <span class="nav-text">安裝 FTP 伺服器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-vsftpd"><span class="nav-number">4.1.</span> <span class="nav-text">安裝 vsftpd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-vsftpd-%E8%A8%AD%E5%AE%9A%E6%AA%94"><span class="nav-number">4.2.</span> <span class="nav-text">修改 vsftpd 設定檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E5%95%9F%E5%8B%95-vsftpd"><span class="nav-number">4.3.</span> <span class="nav-text">重新啟動 vsftpd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BB%E5%85%A5raspberry"><span class="nav-number">4.4.</span> <span class="nav-text">登入raspberry</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-root-%E4%BD%BF%E7%94%A8%E8%80%85%E6%AC%8A%E9%99%90"><span class="nav-number">4.5.</span> <span class="nav-text">修改 root 使用者權限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-root-%E5%AF%86%E7%A2%BC"><span class="nav-number">4.6.</span> <span class="nav-text">設定 root 密碼</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%8A-Raspberry-%E8%A8%AD%E5%AE%9A%E6%88%90%E5%9B%BA%E5%AE%9A-IP-%E9%80%A3%E7%B7%9A"><span class="nav-number">5.</span> <span class="nav-text">把 Raspberry 設定成固定 IP 連線</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B3%E8%AB%8B%E5%9B%BA%E5%AE%9AIP"><span class="nav-number">5.1.</span> <span class="nav-text">申請固定IP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E6%92%A5%E6%8E%A5%E8%BB%9F%E9%AB%94"><span class="nav-number">5.2.</span> <span class="nav-text">安裝撥接軟體</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E6%92%A5%E8%99%9F%E9%80%A3%E7%B7%9A"><span class="nav-number">5.3.</span> <span class="nav-text">設定撥號連線</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Minecraft-%E6%8F%92%E4%BB%B6"><span class="nav-number">6.</span> <span class="nav-text">Minecraft 插件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dynmap"><span class="nav-number">6.1.</span> <span class="nav-text">Dynmap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Akizuki Neko"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Akizuki Neko</p>
+  <div class="site-description" itemprop="description">一個紀錄自己找尋資料，解決問題的地方</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/akizukineko" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;akizukineko" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:contact@akizukineko.tw" title="E-Mail → mailto:contact@akizukineko.tw" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/AkizukiNeko" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;AkizukiNeko" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.driftking.tw/" title="https:&#x2F;&#x2F;blog.driftking.tw&#x2F;" rel="noopener" target="_blank">DriftkingTW's Blog</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://blog.akizukineko.tw/raspberry-minecraft-server-extra/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Akizuki Neko">
+      <meta itemprop="description" content="一個紀錄自己找尋資料，解決問題的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Akizuki Neko">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Raspberry Minecraft 伺服器延伸資料
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2020-01-28 18:27:26" itemprop="dateCreated datePublished" datetime="2020-01-28T18:27:26+08:00">2020-01-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Raspberry/" itemprop="url" rel="index"><span itemprop="name">Raspberry</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="文章字數">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">文章字數：</span>
+      <span>2k</span>
+    </span>
+    <span class="post-meta-item" title="所需閱讀時間">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">所需閱讀時間 &asymp;</span>
+      <span>2 分鐘</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="本篇內容"><a href="#本篇內容" class="headerlink" title="本篇內容"></a>本篇內容</h2><p>這邊會整理一些 Raspberry 更好管理伺服器的軟體，還有一些相關資料<br>關於伺服器架設的部分可以參考這篇<a href="/raspberry-minecraft-server/">使用 Raspberry 架設 Minecraft 伺服器</a></p>
+<p>大概會有</p>
+<ul>
+<li>screen 常用指令</li>
+<li>screen Bug 解決方法</li>
+<li>FTP</li>
+<li>PPPoE</li>
+<li>minecraft 插件<span id="more"></span>
+<h2 id="screen-常用指令"><a href="#screen-常用指令" class="headerlink" title="screen 常用指令"></a>screen 常用指令</h2></li>
+</ul>
+<h3 id="開啟-screen"><a href="#開啟-screen" class="headerlink" title="開啟 screen"></a>開啟 screen</h3><p>輸入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">screen</span><br></pre></td></tr></table></figure>
+
+<h3 id="暫時離開-screen"><a href="#暫時離開-screen" class="headerlink" title="暫時離開 screen"></a>暫時離開 screen</h3><p>Ctrl + a 再按 d 即可</p>
+<h3 id="回到剛剛的連線"><a href="#回到剛剛的連線" class="headerlink" title="回到剛剛的連線"></a>回到剛剛的連線</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">screen -r</span><br></pre></td></tr></table></figure>
+
+<h3 id="screen-清單"><a href="#screen-清單" class="headerlink" title="screen 清單"></a>screen 清單</h3><p>可能同時會有很多連線，使用這指令可以查看清單</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">screen -ls</span><br></pre></td></tr></table></figure>
+
+<h3 id="選擇回到之前的連線"><a href="#選擇回到之前的連線" class="headerlink" title="選擇回到之前的連線"></a>選擇回到之前的連線</h3><p>使用清單指令後應該會類似下圖</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">There are screens on:</span><br><span class="line">        936.pts-0.raspberrypi   (01/28/20 23:27:33)     (Detached)</span><br><span class="line">        928.pts-0.raspberrypi   (01/28/20 23:27:14)     (Detached)</span><br><span class="line">2 Sockets <span class="keyword">in</span> /run/screen/S-pi.</span><br></pre></td></tr></table></figure>
+
+<p>假設我要回到928的連線，可以像這樣子來達成，可以是完整的也可以是簡略的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">screen -r 928.pts-0.raspberrypi <span class="comment">#完整名稱</span></span><br><span class="line">screen -r 928                   <span class="comment">#僅數字</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="screen-重新-attach-失敗"><a href="#screen-重新-attach-失敗" class="headerlink" title="screen 重新 attach 失敗"></a>screen 重新 attach 失敗</h2><p>我是參考<a target="_blank" rel="noopener" href="https://blog.csdn.net/GW569453350game/article/details/46533319">這邊</a>的資料<br>假設928連線出問題按此操作，刪除此進程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep bash | grep 928</span><br><span class="line"><span class="built_in">kill</span> 928</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝-FTP-伺服器"><a href="#安裝-FTP-伺服器" class="headerlink" title="安裝 FTP 伺服器"></a>安裝 FTP 伺服器</h2><p>這邊使用 vsftpd 來建立 ftp 伺服器</p>
+<h3 id="安裝-vsftpd"><a href="#安裝-vsftpd" class="headerlink" title="安裝 vsftpd"></a>安裝 vsftpd</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install vsftpd</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改-vsftpd-設定檔"><a href="#修改-vsftpd-設定檔" class="headerlink" title="修改 vsftpd 設定檔"></a>修改 vsftpd 設定檔</h3><p>開啟設定檔進行修改</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/vsftpd.conf</span><br></pre></td></tr></table></figure>
+
+<p>將這兩行程式前的 # 號去掉</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">local_enable=YES    </span><br><span class="line"></span><br><span class="line">write_enable=YES</span><br></pre></td></tr></table></figure>
+
+<h3 id="重新啟動-vsftpd"><a href="#重新啟動-vsftpd" class="headerlink" title="重新啟動 vsftpd"></a>重新啟動 vsftpd</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service vsftpd restart</span><br></pre></td></tr></table></figure>
+<h3 id="登入raspberry"><a href="#登入raspberry" class="headerlink" title="登入raspberry"></a>登入raspberry</h3><p>FTP 軟體可以使用 <a target="_blank" rel="noopener" href="https://filezilla-project.org/download.php?show_all=1">FileZilla</a></p>
+<p>輸入 pi 的帳戶登錄即可</p>
+<h3 id="修改-root-使用者權限"><a href="#修改-root-使用者權限" class="headerlink" title="修改 root 使用者權限"></a>修改 root 使用者權限</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/ftpusers</span><br></pre></td></tr></table></figure>
+<p>將 root 前的 # 號清除，儲存檔案</p>
+<h3 id="設定-root-密碼"><a href="#設定-root-密碼" class="headerlink" title="設定 root 密碼"></a>設定 root 密碼</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo passwd root</span><br><span class="line"></span><br><span class="line">sudo passwd –unlock root <span class="comment">#解除 root 鎖定</span></span><br></pre></td></tr></table></figure>
+
+<p>重新啟動 raspberry 就能使用 root 帳戶登入 ftp 了</p>
+<h2 id="把-Raspberry-設定成固定-IP-連線"><a href="#把-Raspberry-設定成固定-IP-連線" class="headerlink" title="把 Raspberry 設定成固定 IP 連線"></a>把 Raspberry 設定成固定 IP 連線</h2><h3 id="申請固定IP"><a href="#申請固定IP" class="headerlink" title="申請固定IP"></a>申請固定IP</h3><p><a target="_blank" rel="noopener" href="http://service.hinet.net/2004/adslstaticip.php">Hinet 固定 IP 申請網頁</a><br>設定完成後馬上就可以使用，不過要使用撥接，所以先安裝撥接軟體<br>hinet撥接的話要在 hinet.net 前加上 ip<br>類似這樣: 8(7)<a href="mailto:&#120;&#x78;&#120;&#120;&#x78;&#x78;&#x78;&#64;&#x69;&#x70;&#46;&#x68;&#x69;&#110;&#x65;&#116;&#46;&#x6e;&#101;&#116;">&#120;&#x78;&#120;&#120;&#x78;&#x78;&#x78;&#64;&#x69;&#x70;&#46;&#x68;&#x69;&#110;&#x65;&#116;&#46;&#x6e;&#101;&#116;</a></p>
+<h3 id="安裝撥接軟體"><a href="#安裝撥接軟體" class="headerlink" title="安裝撥接軟體"></a>安裝撥接軟體</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install pppoeconf</span><br></pre></td></tr></table></figure>
+<h3 id="設定撥號連線"><a href="#設定撥號連線" class="headerlink" title="設定撥號連線"></a>設定撥號連線</h3><p>安裝完成後要設定 Hinet 登入密碼<br>開啟設定程式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pppoeconf</span><br></pre></td></tr></table></figure>
+
+<p>這邊他會請你備份他要修改的檔案，直接 Yes 即可</p>
+<img src="/raspberry-minecraft-server-extra/pppoe.png" class="">
+
+<p>是否設定常用參數 Yes</p>
+<img src="/raspberry-minecraft-server-extra/pppoe2.png" class="">
+
+<p>這邊輸入你的 Hinet 帳號</p>
+<img src="/raspberry-minecraft-server-extra/pppoe3.png" class="">
+
+<p>輸入 Hinet 密碼</p>
+<img src="/raspberry-minecraft-server-extra/pppoe4.png" class="">
+
+<p>是否儲存 ISP 提供的 DNS 設定值 Yes</p>
+<img src="/raspberry-minecraft-server-extra/pppoe5.png" class=""> 
+
+<p>最大分段容量 Yes</p>
+<img src="/raspberry-minecraft-server-extra/pppoe6.png" class=""> 
+
+<p>是否設定成開機啟動? Yes</p>
+<img src="/raspberry-minecraft-server-extra/pppoe7.png" class=""> 
+
+<p>是否現在撥接? Yes</p>
+<img src="/raspberry-minecraft-server-extra/pppoe8.png" class=""> 
+
+<p>一點指令介紹 Enter 即可</p>
+<img src="/raspberry-minecraft-server-extra/pppoe9.png" class="">
+
+<p>這時輸入以下指令查詢 IP 位置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig ppp0</span><br></pre></td></tr></table></figure>
+<p>應該會看到這樣的畫面，分享最左邊的 IP 位置給朋友即可</p>
+<img src="/raspberry-minecraft-server-extra/pppoeipconf.png" class=""> 
+
+<h2 id="Minecraft-插件"><a href="#Minecraft-插件" class="headerlink" title="Minecraft 插件"></a>Minecraft 插件</h2><p>把想安裝的插件放入 minecraft server 的 plugins 資料夾即可<br>可以在這邊找到你享用的插件 <a target="_blank" rel="noopener" href="https://www.spigotmc.org/resources/categories/spigot.4/">plugins</a><br>可以在<a target="_blank" rel="noopener" href="https://www.spigotmc.org/wiki/compatible-plugins-by-release/">這裡</a>找到官方整理各版本可以使用的插件</p>
+<h3 id="Dynmap"><a href="#Dynmap" class="headerlink" title="Dynmap"></a>Dynmap</h3><p>一個可以在瀏覽器顯示地圖及玩家所在位置的插件<br><a target="_blank" rel="noopener" href="https://www.spigotmc.org/resources/dynmap.274/">下載地址</a></p>
+<p>放入 plugins 資料夾即可<br>伺服器啟動後，在瀏覽器開啟 <a target="_blank" rel="noopener" href="http://localhost:8123/">http://localhost:8123/</a> 即可<br>如果要開放給別人看記得將8123 port 的權限給打開</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>screen:<br><a target="_blank" rel="noopener" href="https://blog.gtwang.org/linux/screen-command-examples-to-manage-linux-terminals/">使用 Screen 指令操控 UNIX/Linux 終端機的教學與範例</a><br><a target="_blank" rel="noopener" href="https://mropengate.blogspot.com/2015/09/linux-screen.html">Linux - 終端機開發好物：多重視窗工具 screen 教學</a><br><a target="_blank" rel="noopener" href="http://puremonkey2010.blogspot.com/2014/12/linux-screen-unixlinux.html">[Linux 文章收集] 使用 Screen 指令操控 UNIX/Linux 終端機的教學與範例</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/GW569453350game/article/details/46533319">screen使用问题，重新attach失败：There is no screen to be resumed matching ***</a></p>
+<p>Ftp:<br><a target="_blank" rel="noopener" href="http://tomchun.tw/tomchun/2015/11/30/1-370/">【教學】樹莓派Raspberry PI(RASPBIAN)ftp伺服器安裝</a><br><a target="_blank" rel="noopener" href="http://wuhsiublog.blogspot.com/2017/01/raspberry-pi-3-raspbianftp-server.html">[Raspberry Pi 3] 在raspbian上建立FTP server</a><br><a target="_blank" rel="noopener" href="http://yhhuang1966.blogspot.com/2017/02/ftp.html">在樹莓派上架設 FTP 伺服器</a></p>
+<p>PPPoE:<br><a target="_blank" rel="noopener" href="http://blog.itist.tw/2015/02/raspberry-pi-pppoe-connection.html">Raspberry Pi 的基礎 - 直接連線 ADSL 或光纖撥接上網</a><br><a target="_blank" rel="noopener" href="https://thinker-evans.blogspot.com/2015/04/raspberry-pi-adsl-pppoe.html">Raspberry Pi 樹莓派 ADSL PPPoE 連線到網際網路</a></p>
+<p>Minecraft:<br><a target="_blank" rel="noopener" href="https://www.kjnotes.com/other/97">在 Spigot 架設的 Minecraft 伺服器中安裝需要的插件教學</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/minecraft/" rel="tag"># minecraft</a>
+              <a href="/tags/Raspberry-Pi/" rel="tag"># Raspberry Pi</a>
+              <a href="/tags/server/" rel="tag"># server</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/raspberry-minecraft-server/" rel="prev" title="使用 Raspberry 架設 Minecraft 伺服器">
+                  <i class="fa fa-chevron-left"></i> 使用 Raspberry 架設 Minecraft 伺服器
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/photo-200130/" rel="next" title="攝影記事">
+                  攝影記事 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div><script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Akizuki Neko</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="總字數">15k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="所需總閱讀時間">14 分鐘</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+<script class="next-config" data-name="gitalk" type="application/json">{&quot;enable&quot;:true,&quot;github_id&quot;:&quot;akizukineko&quot;,&quot;repo&quot;:&quot;gitalkcomment&quot;,&quot;client_id&quot;:&quot;80df3a49a7ec5586d991&quot;,&quot;client_secret&quot;:&quot;172c964babb16632d1164148ba3c58e7532c00d6&quot;,&quot;admin_user&quot;:&quot;akizukineko&quot;,&quot;distraction_free_mode&quot;:true,&quot;proxy&quot;:&quot;https:&#x2F;&#x2F;cors-anywhere.herokuapp.com&#x2F;https:&#x2F;&#x2F;github.com&#x2F;login&#x2F;oauth&#x2F;access_token&quot;,&quot;language&quot;:&quot;zh-TW&quot;,&quot;js&quot;:&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;gitalk@1.7.2&#x2F;dist&#x2F;gitalk.min.js&quot;,&quot;path_md5&quot;:&quot;362e53d5f36218215904e11101b03c8f&quot;}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
